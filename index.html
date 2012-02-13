@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<style type="text/css" media="screen">
+    #gif, #mov {
+        width:280px;
+    }
+
+    body {
+      font-size:16pt;
+      line-height:1.5em;
+      font-family:"Myriad Pro", "Trebuchet MS", Times;
+      width: 46em;
+      margin:4ex 0 12ex 15%;
+    }
+</style>
+<title>Gif me mov</title>
+<h1>Gif me mov</h1>
+
+<form method="get" accept-charset="utf-8" id="gnm">
+    <label for="gif">Gif: </label><input type="text" name="gif" value="" id="gif">&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="mov">Mov: </label><input type="text" name="mov" value="" id="mov">
+    <input type="submit" value="Gif me mov!">
+</form>
+
+<span id="gifn"></span>
+<span id="movn"></span>
+
+<p><a href="http://twitter.com/janl">❧</a></p>
+<script type="text/javascript">
+function elm(id) { return document.getElementById(id); }
+function parse_url(url_string) {
+    url_string = url_string.substr(1);
+    var params = url_string.split("&");
+    var obj = {};
+    params.forEach(function(param) {
+       var kv = param.split("=");
+       obj[kv[0]] = kv[1];
+    });
+    return obj;
+}
+function gifmemov () {
+    var gif = elm("gif");
+    var gifn = elm("gifn");
+    var img = document.createElement("img");
+    img.src = gif.value;
+    gifn.innerHTML = "";
+    gifn.appendChild(img);
+    var baseyturl = "http://www.youtube.com/embed/";
+    var mov = elm("mov");
+    var ytid = mov.value.match(/v=([\w]+)/)[1];
+    var movn = elm("movn");
+    var ifr = document.createElement("iframe");
+    ifr.id = "movnif";
+    ifr.width = 420;
+    ifr.height = 315;
+    ifr.src = baseyturl + ytid;
+    ifr.frameborder = 0;
+    ifr.allowfullscreen = true;
+    movn.innerHTML = "";
+    movn.appendChild(ifr);
+    if(!window.location.search) {
+        window.location.search = "?gif=" + encodeURIComponent(gif.value) + "&mov=" + encodeURIComponent(mov.value);
+    }
+    return false; // stop
+}
+
+if(window.location.search) {
+    // we have meterial!
+    var params = parse_url(window.location.search);
+    if(params.gif) {
+        var gif = elm("gif");
+        gif.value = decodeURIComponent(params.gif);
+    }
+    if(params.mov) {
+        var mov = elm("mov");
+        mov.value = decodeURIComponent(params.mov);
+    }
+    if(params.gif || params.mov) {
+        gifmemov();
+    }
+}
+
+var form = elm("gnm");
+form.onsubmit = gifmemov;
+</script>
