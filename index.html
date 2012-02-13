@@ -55,6 +55,10 @@
         font-size:0.8em;
     }
 
+    #hider {
+        font-size: 0.8em;
+    }
+
 </style>
 <title>Gif me mov</title>
 <h1>Gif<br>me<br>mov</h1>
@@ -71,6 +75,7 @@
 <div class="wrap">
     <label for="mov">Mov: </label><input type="text" name="mov" value="" id="mov" placeholder="Paste a YouTube link">
     <div id="movn"></div>
+    <a id="hider" href="#">hide video</a>
 </div>
 </form>
 
@@ -85,7 +90,6 @@
         <li><a href="?gif=http%3A%2F%2Fchzanimalgifs.files.wordpress.com%2F2012%2F01%2Ffunny-animal-gifs-otter-dance.gif&amp;mov=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DtvLDm8821jQ" title="Gif me mov">Otter &amp; Doop</a></li>
     </ul>
 </div>
-
 <p><a href="http://twitter.com/janl">❧</a></p>
 <script type="text/javascript">
 function elm(id) { return document.getElementById(id); }
@@ -158,6 +162,21 @@ if(window.location.search) {
 
 var form = elm("gnm");
 form.onsubmit = gifmemov;
+
+var hider = elm("hider");
+var hiding = false;
+var movnif = elm("movnif");
+hider.onclick = function() {
+    if(hiding) {
+        hider.innerHTML = "hide video";
+        movnif.style.display = "block";
+    } else {
+        hider.innerHTML = "show video";
+        movnif.style.display = "none";
+    }
+    hiding = !hiding;
+}
+
 </script>
 <script type="text/javascript">
 
