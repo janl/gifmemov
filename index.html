@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <style type="text/css" media="screen">
     #gif, #mov {
-        width:280px;
+        width:300px;
         font-size:16pt;
         border:2px solid #CCC;
     }
@@ -15,26 +15,65 @@
         font-size:16pt;
     }
 
-    body {
-      font-size:16pt;
-      line-height:1.5em;
-      font-family:"Myriad Pro", "Trebuchet MS";
-      width: 46em;
-      margin:4ex 0 12ex 15%;
+    .wrap {
+        float: left;
+        text-align: center;
     }
+
+    #gifn, #movn {
+        margin: .5em;
+        width: 420px;
+        height: 315px;
+        border: 1px #333 dashed;
+        text-align: center;
+    }
+
+    #gifn img {
+/*        width: 420px;*/
+    }
+
+    #sbm {
+        float:left;
+        margin-left:-150px;
+        margin-top:150px;
+    }
+
+    body {
+      font-size: 16pt;
+      line-height: 1.5em;
+      font-family: "Trebuchet MS", Helvetica;
+      width: 960px;
+      margin: 4ex 0 12ex 15%;
+    }
+
 </style>
 <title>Gif me mov</title>
 <h1>Gif me mov</h1>
 
 <form method="get" accept-charset="utf-8" id="gnm">
-    <label for="gif">Gif: </label><input type="text" name="gif" value="" id="gif" placeholder="Paste a .gif link">
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <label for="mov">Mov: </label><input type="text" name="mov" value="" id="mov" placeholder="Paste a YouTube link">
+
+<div id="sbm">
     <input type="submit" value="Gif me mov!" id="gifmemov">
+</div>
+
+<div class="wrap">
+    <label for="gif">Gif: </label><input type="text" name="gif" value="" id="gif" placeholder="Paste a .gif link">
+    <div id="gifn"></div>
+</div>
+<div class="wrap">
+    <label for="mov">Mov: </label><input type="text" name="mov" value="" id="mov" placeholder="Paste a YouTube link">
+    <div id="movn"></div>
+</div>
 </form>
 
-<span id="gifn"></span>
-<span id="movn"></span>
+<div style="clear: both;"></div>
+<h3> For Example </h3>
+
+<ul>
+    <li><a href="?gif=http%3A%2F%2Fdl.dropbox.com%2Fu%2F1953503%2Fgifs%2F0qu0t.gif&amp;mov=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DyBZgHVXGyBg">Zen</a> by <a href="https://twitter.com/jannis/status/168311646178119681">@jayniz</a></li>
+    <li><a href="?gif=http%3A%2F%2Fchzgifs.files.wordpress.com%2F2012%2F01%2Ffunny-gifs-dope-zebra.gif&amp;mov=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DcMBh8P1m9Wo">Zebra &amp; Push It!</a></li>
+    <li><a href="?gif=http%3A%2F%2Fchzanimalgifs.files.wordpress.com%2F2012%2F01%2Ffunny-animal-gifs-otter-dance.gif&amp;mov=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DtvLDm8821jQ" title="Gif me mov">Otter &amp; Doop</a></li>
+</ul>
 
 <p><a href="http://twitter.com/janl">❧</a></p>
 <script type="text/javascript">
@@ -56,6 +95,18 @@ function gifmemov () {
     img.src = gif.value;
     gifn.innerHTML = "";
     gifn.appendChild(img);
+    var ratio = img.width / img.height;
+    if(img.height > 315) {
+        img.height = 315;
+        img.width = 315 * ratio;
+    } else {
+        if(img.width > 420) {
+            img.width = 420;
+            img.height = 420 * 1 / ratio;
+        }
+        // vertical center!
+        img.style.marginTop = parseInt((316 - img.height) / 2) + "px";
+    }
     var baseyturl = "http://www.youtube.com/embed/";
     var mov = elm("mov");
     var ytid = mov.value.match(/v=([\w]+)/)[1];
@@ -69,8 +120,9 @@ function gifmemov () {
     ifr.allowfullscreen = true;
     movn.innerHTML = "";
     movn.appendChild(ifr);
-    if(!window.location.search) {
-        window.location.search = "?gif=" + encodeURIComponent(gif.value) + "&mov=" + encodeURIComponent(mov.value);
+    var new_search = "?gif=" + encodeURIComponent(gif.value) + "&mov=" + encodeURIComponent(mov.value);
+    if(window.location.search != new_search) {
+        window.location.search = new_search;
     }
     return false; // stop
 }
