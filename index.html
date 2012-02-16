@@ -87,95 +87,97 @@
     <ul>
         <li><a href="?gif=http%3A%2F%2Fdl.dropbox.com%2Fu%2F1953503%2Fgifs%2F0qu0t.gif&amp;mov=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DyBZgHVXGyBg">Zen</a> by <a href="https://twitter.com/jannis/status/168311646178119681">@jannis</a></li>
         <li><a href="?gif=http%3A%2F%2Fchzgifs.files.wordpress.com%2F2012%2F01%2Ffunny-gifs-dope-zebra.gif&amp;mov=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DcMBh8P1m9Wo">Zebra &amp; Push It!</a></li>
-        <li><a href="?gif=http%3A%2F%2Fchzanimalgifs.files.wordpress.com%2F2012%2F01%2Ffunny-animal-gifs-otter-dance.gif&amp;mov=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DtvLDm8821jQ" title="Gif me mov">Otter &amp; Doop</a></li>
+        <li><a href="?gif=http%3A%2F%2Fchzanimalgifs.files.wordpress.com%2F2012%2F01%2Ffunny-animal-gifs-otter-dance.gif&mov=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3Dj5C6X9vOEkU#" title="Gif me mov">Otter &amp; Banana Phone</a></li>
     </ul>
 </div>
 <p><a href="http://twitter.com/janl">❧</a></p>
 <script type="text/javascript">
-function elm(id) { return document.getElementById(id); }
-function parse_url(url_string) {
-    url_string = url_string.substr(1);
-    var params = url_string.split("&");
-    var obj = {};
-    params.forEach(function(param) {
-       var kv = param.split("=");
-       obj[kv[0]] = kv[1];
-    });
-    return obj;
-}
-function gifmemov () {
-    var gif = elm("gif");
-    var gifn = elm("gifn");
-    var img = document.createElement("img");
-    img.src = gif.value;
-    gifn.innerHTML = "";
-    gifn.appendChild(img);
-    img.onload = function() {
-        var ratio = img.width / img.height;
-        if(img.height > 315) {
-            img.height = 315;
-            img.width = 315 * ratio;
-        } else {
-            if(img.width > 420) {
-                img.width = 420;
-                img.height = 420 * 1 / ratio;
+(function() {
+    function elm(id) { return document.getElementById(id); }
+    function parse_url(url_string) {
+        url_string = url_string.substr(1);
+        var params = url_string.split("&");
+        var obj = {};
+        params.forEach(function(param) {
+           var kv = param.split("=");
+           obj[kv[0]] = kv[1];
+        });
+        return obj;
+    }
+    function gifmemov () {
+        var gif = elm("gif");
+        var gifn = elm("gifn");
+        var img = document.createElement("img");
+        img.src = gif.value;
+        gifn.innerHTML = "";
+        gifn.appendChild(img);
+        img.onload = function() {
+            var ratio = img.width / img.height;
+            if(img.height > 315) {
+                img.height = 315;
+                img.width = 315 * ratio;
+            } else {
+                if(img.width > 420) {
+                    img.width = 420;
+                    img.height = 420 * 1 / ratio;
+                }
+                // vertical center!
+                img.style.marginTop = parseInt((316 - img.height) / 2) + "px";
             }
-            // vertical center!
-            img.style.marginTop = parseInt((316 - img.height) / 2) + "px";
+        }
+        var baseyturl = "http://www.youtube.com/embed/";
+        var mov = elm("mov");
+        var ytid = mov.value.match(/v=([\w]+)/)[1];
+        var movn = elm("movn");
+        var ifr = document.createElement("iframe");
+        ifr.id = "movnif";
+        ifr.width = 420;
+        ifr.height = 315;
+        ifr.src = baseyturl + ytid;
+        ifr.frameborder = 0;
+        ifr.allowfullscreen = true;
+        movn.innerHTML = "";
+        movn.appendChild(ifr);
+        var new_search = "?gif=" + encodeURIComponent(gif.value) + "&mov=" + encodeURIComponent(mov.value);
+        if(window.location.search != new_search) {
+            window.location.search = new_search;
+        }
+        return false; // stop
+    }
+
+    if(window.location.search) {
+        // we have meterial!
+        var params = parse_url(window.location.search);
+        if(params.gif) {
+            var gif = elm("gif");
+            gif.value = decodeURIComponent(params.gif);
+        }
+        if(params.mov) {
+            var mov = elm("mov");
+            mov.value = decodeURIComponent(params.mov);
+        }
+        if(params.gif || params.mov) {
+            gifmemov();
         }
     }
-    var baseyturl = "http://www.youtube.com/embed/";
-    var mov = elm("mov");
-    var ytid = mov.value.match(/v=([\w]+)/)[1];
-    var movn = elm("movn");
-    var ifr = document.createElement("iframe");
-    ifr.id = "movnif";
-    ifr.width = 420;
-    ifr.height = 315;
-    ifr.src = baseyturl + ytid;
-    ifr.frameborder = 0;
-    ifr.allowfullscreen = true;
-    movn.innerHTML = "";
-    movn.appendChild(ifr);
-    var new_search = "?gif=" + encodeURIComponent(gif.value) + "&mov=" + encodeURIComponent(mov.value);
-    if(window.location.search != new_search) {
-        window.location.search = new_search;
-    }
-    return false; // stop
-}
 
-if(window.location.search) {
-    // we have meterial!
-    var params = parse_url(window.location.search);
-    if(params.gif) {
-        var gif = elm("gif");
-        gif.value = decodeURIComponent(params.gif);
-    }
-    if(params.mov) {
-        var mov = elm("mov");
-        mov.value = decodeURIComponent(params.mov);
-    }
-    if(params.gif || params.mov) {
-        gifmemov();
-    }
-}
+    var form = elm("gnm");
+    form.onsubmit = gifmemov;
 
-var form = elm("gnm");
-form.onsubmit = gifmemov;
-
-var hider = elm("hider");
-var hiding = false;
-var movnif = elm("movnif");
-hider.onclick = function() {
-    if(hiding) {
-        hider.innerHTML = "hide video";
-        movnif.style.display = "block";
-    } else {
-        hider.innerHTML = "show video";
-        movnif.style.display = "none";
+    var hider = elm("hider");
+    var hiding = false;
+    var movnif = elm("movnif");
+    hider.onclick = function() {
+        if(hiding) {
+            hider.innerHTML = "hide video";
+            movnif.style.display = "block";
+        } else {
+            hider.innerHTML = "show video";
+            movnif.style.display = "none";
+        }
+        hiding = !hiding;
     }
-    hiding = !hiding;
-}
+})();
 
 </script>
 <script type="text/javascript">
